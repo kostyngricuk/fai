@@ -4,7 +4,7 @@ description: "Update FAI feature agents from new information — recent commits,
 argument-hint: "[feature-slug] [source: commits | <sha>..<sha> | PR url/number | doc path | url | free text] — no args trains every agent"
 ---
 
-Keep `fai/features/<slug>.md` true. A feature agent that drifts from the code is worse than no
+Keep `.fai/features/<slug>.md` true. A feature agent that drifts from the code is worse than no
 agent — it produces confident, cited, wrong plans.
 
 This is not an append. It is a **diff of the document against reality**: every existing claim gets
@@ -24,14 +24,14 @@ re-checked, not just new facts added.
 
 ### Step 1 — Load
 
-**With a slug:** read `fai/features/<slug>.md` and take `watermark` from its frontmatter. If the
+**With a slug:** read `.fai/features/<slug>.md` and take `watermark` from its frontmatter. If the
 file does not exist, say so and point at `/fai-create <slug>`.
 
 **With no arguments: train every agent.** This is the routine maintenance mode — run it after a
 merge, or on a Monday, to pull the whole roster back in sync at once.
 
 ```sh
-ls fai/features/*.md 2>/dev/null
+ls .fai/features/*.md 2>/dev/null
 ```
 
 - No agents at all → say so and point at `/fai-create`.
@@ -94,7 +94,7 @@ Pay particular attention to:
 Show a compact change set and get approval before touching anything:
 
 ```markdown
-## Proposed updates to fai/features/checkout.md
+## Proposed updates to .fai/features/checkout.md
 
 **Watermark:** `a1b2c3d` (2026-08-02) → `f9e8d7c` (2026-09-14) — 14 commits, 3 tickets
 

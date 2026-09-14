@@ -40,7 +40,7 @@ genuinely ambiguous, ask now — before spending agent turns.
 ### Step 2 — Route to feature agents
 
 ```sh
-ls fai/features/*.md 2>/dev/null
+ls .fai/features/*.md 2>/dev/null
 ```
 
 Read each file's frontmatter (`description`, `paths`). Score against the ticket text and against any
@@ -107,4 +107,4 @@ Use the shared severity vocabulary for risks: 🔴 CRITICAL · 🟠 MAJOR · �
 ### Step 6 — Offer to save
 
 Close by offering `/fai-save-plan` so the plan survives into a future session, and name the path it
-would be written to (`fai/plans/feat-<ticket>.md`).
+would be written to (`.fai/plans/feat-<ticket>.md`).

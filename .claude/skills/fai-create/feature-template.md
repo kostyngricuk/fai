@@ -1,6 +1,6 @@
 # Feature knowledge template
 
-The skeleton for `fai/features/<slug>.md`. Read this, then write the real file — do not copy the
+The skeleton for `.fai/features/<slug>.md`. Read this, then write the real file — do not copy the
 placeholders through.
 
 ## How to fill it

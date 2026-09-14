@@ -1,6 +1,6 @@
 ---
 name: fai-save-plan
-description: "Save a plan produced by a FAI feature agent to fai/plans/ with the standard location, naming, and structure so it can be reviewed, resumed, and handed off across sessions. Use whenever a fai-* agent finishes a file-level implementation plan for a ticket, or when asked to persist/record a plan for later work."
+description: "Save a plan produced by a FAI feature agent to .fai/plans/ with the standard location, naming, and structure so it can be reviewed, resumed, and handed off across sessions. Use whenever a fai-* agent finishes a file-level implementation plan for a ticket, or when asked to persist/record a plan for later work."
 argument-hint: <ticket id + the plan to save>
 ---
 
@@ -17,17 +17,17 @@ produce it first (`/fai-plan <ticket>`), then run this skill.
 
 ## Where plans live
 
-`fai/plans/`. Create it yourself before writing — never ask the user to make it:
+`.fai/plans/`. Create it yourself before writing — never ask the user to make it:
 
 ```sh
-mkdir -p fai/plans
+mkdir -p .fai/plans
 ```
 
 ## Naming
 
 `feat-<ticket-number>.md`, using only the numeric part of the ticket.
 
-- Linear `TID-3212` → `fai/plans/feat-3212.md`
+- Linear `TID-3212` → `.fai/plans/feat-3212.md`
 - No ticket → a short kebab-case slug: `feat-<slug>.md`
 - One plan per file. If a plan for the ticket already exists, **update it in place** rather than
   creating a duplicate; note what changed at the top of the affected section.
@@ -61,7 +61,7 @@ updated: 2026-09-14
    rationale for non-obvious choices. Reference real symbols and follow patterns already in the
    codebase, not generic advice.
 5. **`## Verification`** — the project's own commands, as recorded in the feature agent's
-   Verification section (§9 of `fai/features/<slug>.md`) — never a guessed `yarn test`. Give expected
+   Verification section (§9 of `.fai/features/<slug>.md`) — never a guessed `yarn test`. Give expected
    results and any known pre-existing failures to ignore. Note if manual/E2E is not exercisable and
    why.
 6. **`## Out of scope / dependencies`** — deferred items, work owned by others (with ticket ids),
@@ -86,15 +86,15 @@ updated: 2026-09-14
 ## Procedure
 
 1. Determine the ticket number → resolve the target filename.
-2. Check `fai/plans/` for an existing file: create new, or update in place.
+2. Check `.fai/plans/` for an existing file: create new, or update in place.
 3. Write the plan following the frontmatter, required structure, and grounding rules.
-4. Confirm the saved path back to the user (e.g. `fai/plans/feat-3212.md`).
+4. Confirm the saved path back to the user (e.g. `.fai/plans/feat-3212.md`).
 
 ## Resuming a saved plan
 
 In a later session, to pick a plan back up:
 
-1. Read `fai/plans/feat-<n>.md` and find the first unchecked box in the **Execution log**.
+1. Read `.fai/plans/feat-<n>.md` and find the first unchecked box in the **Execution log**.
 2. **Re-verify the "Current-state facts" first** — code moves. Anything that no longer holds
    invalidates the steps built on it; correct the plan before executing it, and consider
    `/fai-train <slug>` if the drift is in the feature agent itself.

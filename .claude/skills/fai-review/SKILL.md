@@ -44,7 +44,7 @@ paths to review.
 git diff --name-only <scope>
 ```
 
-Match the changed paths against each `fai/features/*.md` frontmatter `paths:` list and code map.
+Match the changed paths against each `.fai/features/*.md` frontmatter `paths:` list and code map.
 Build the set of matched feature agents. Report which files matched no agent — those get the generic
 lens only, and that gap is worth saying out loud.
 
@@ -78,7 +78,7 @@ brief. This kit runs on other people's machines — check, do not assume.
 > **Discount stacking guard removed.** `applyPromo` no longer checks `isStackable` before
 > combining promos.
 > **Why it matters:** two stackable-false promos now compound, so a 30% + 40% pair applies as 58%
-> off instead of 40%. This is the invariant at `fai/features/checkout.md` §5.
+> off instead of 40%. This is the invariant at `.fai/features/checkout.md` §5.
 > **Fix:** restore the `isStackable` short-circuit, and extend `__tests__/cart/promo.ts` with the
 > two-promo case.
 

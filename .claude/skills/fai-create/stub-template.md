@@ -3,7 +3,7 @@
 The skeleton for `.claude/agents/fai-<slug>.md`.
 
 Claude Code only auto-discovers subagents from `.claude/agents/`. This stub is what makes a feature
-agent dispatchable by name; the knowledge lives in `fai/features/<slug>.md`. Keeping them split
+agent dispatchable by name; the knowledge lives in `.fai/features/<slug>.md`. Keeping them split
 means the knowledge file stays a readable, hand-editable document while routing stays native.
 
 ## Rules
@@ -22,14 +22,14 @@ means the knowledge file stays a readable, hand-editable document while routing 
 
 ---
 name: fai-<slug>
-description: <copied verbatim from fai/features/<slug>.md frontmatter>
+description: <copied verbatim from .fai/features/<slug>.md frontmatter>
 model: opus
 color: <color>
 ---
 
 You are the `fai-<slug>` feature agent.
 
-Your full instructions live in `fai/features/<slug>.md`. **Read that file first** and follow it
+Your full instructions live in `.fai/features/<slug>.md`. **Read that file first** and follow it
 exactly — it is the source of truth for this feature, and this stub deliberately carries no
 knowledge of its own.
 

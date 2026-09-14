@@ -1,6 +1,6 @@
 ---
 name: fai-create
-description: "Create a new FAI feature agent — research a feature's code, git history, and tickets, interview the user about business rules, then write a self-contained specialist agent to fai/features/<slug>.md plus a routing stub in .claude/agents/. Use when asked to create/add/set up a feature agent, onboard a feature, or make an agent that knows a specific feature."
+description: "Create a new FAI feature agent — research a feature's code, git history, and tickets, interview the user about business rules, then write a self-contained specialist agent to .fai/features/<slug>.md plus a routing stub in .claude/agents/. Use when asked to create/add/set up a feature agent, onboard a feature, or make an agent that knows a specific feature."
 argument-hint: <feature name or description, e.g. "checkout" or "the discount engine in src/pricing">
 ---
 
@@ -14,7 +14,7 @@ FAI = Feature Agents Infrastructure. Everything this skill writes follows the `f
 
 | File | Role |
 | --- | --- |
-| `fai/features/<slug>.md` | The knowledge. Source of truth. Everything lives here. |
+| `.fai/features/<slug>.md` | The knowledge. Source of truth. Everything lives here. |
 | `.claude/agents/fai-<slug>.md` | A thin routing stub so Claude Code can dispatch to the agent by name. Carries no knowledge of its own. |
 
 Templates: `feature-template.md` and `stub-template.md`, both in this skill's folder. Read them
@@ -40,12 +40,12 @@ before writing.
 
 - Slugify the argument into a short kebab-case `<slug>` (e.g. "the discount engine in src/pricing"
   → `discount`). Confirm the slug with the user if the argument is vague.
-- If `fai/features/<slug>.md` already exists: **stop.** Tell the user it exists and recommend
+- If `.fai/features/<slug>.md` already exists: **stop.** Tell the user it exists and recommend
   `/fai-train <slug>` instead. Only overwrite if they explicitly ask.
 - Create the destinations before writing anything — never ask the user to set up directories:
 
   ```sh
-  mkdir -p fai/features .claude/agents
+  mkdir -p .fai/features .claude/agents
   ```
 
 ### 1. Codebase research
@@ -143,7 +143,7 @@ Cover:
 
 ### 5. Write the two files
 
-Read `feature-template.md`, then write `fai/features/<slug>.md` with every section filled from
+Read `feature-template.md`, then write `.fai/features/<slug>.md` with every section filled from
 researched, cited content. Drop sections that genuinely do not apply — an honest 12-section file
 beats an 18-section file padded with filler.
 

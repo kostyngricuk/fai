@@ -41,7 +41,7 @@ and any retroactive correction of already-placed orders (owned by the finance te
   currently lives inline in `promo.ts`.
 - `__tests__/cart/promo.ts` (L1-60) covers single-promo cases only. There is **no** multi-promo
   test at all.
-- `fai/features/checkout.md` §5 states the invariant "at most one non-stackable promo applies per
+- `.fai/features/checkout.md` §5 states the invariant "at most one non-stackable promo applies per
   order" — it is documented but was never enforced in code.
 
 ## Implementation steps
