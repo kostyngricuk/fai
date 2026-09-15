@@ -1,5 +1,6 @@
 {
   "name": "fai",
+  "version": "1.0.0",
   "displayName": "FAI — Feature Agents Infrastructure",
   "description": "Feature-scoped AI agents that know your business logic — create them, plan with them, review with them, and keep them current.",
   "author": { "name": "Kanstantsin Hrytsuk", "url": "https://github.com/kostyngricuk" },
