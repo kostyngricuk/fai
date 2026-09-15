@@ -31,6 +31,12 @@ before writing.
    tool.
 4. **Never invent.** If research and the user both come up empty on a section, drop the section
    rather than filling it with plausible-sounding filler.
+5. **Reference, don't transcribe.** The knowledge file *points at* code; it never copies code into
+   itself. Cite `path:line — Symbol`. Write prose *about* a thing only when the thing is not in this
+   repo to point at — that belongs in section 12, "External contracts & references".
+6. **Ask only anchored questions.** Every question you put to the user must quote something
+   concrete — a `path:line`, a sha, a passage from a reference they approved. An interview that
+   asks nothing is a success, not a failure.
 
 ---
 
@@ -48,6 +54,12 @@ before writing.
   mkdir -p .fai/features .claude/agents
   ```
 
+- **Classify references before you research.** Anything the user named in the invocation or the
+  conversation — a doc path, a PR/MR url, an API contract, a spec, a ticket link — is
+  **user-supplied**: read it now, no permission round needed. Anything *you* turn up during
+  research is **discovered**: record its location and one line on what it appears to cover, but
+  **do not read it yet**. Discovered references go to the user for approval in step 4, round A.
+
 ### 1. Codebase research
 
 Launch up to **3 `Explore` agents in parallel** (one message, multiple tool calls), each with a
@@ -60,6 +72,10 @@ exist where relevant.
   types, DB schema, services, sagas/effects/queues. Where the rules are enforced.
 - **Agent C — supporting.** Tests (and their mocking conventions), config and feature flags, i18n
   keys, assets, docs, and anything that must be updated in lockstep with the feature.
+
+Also have each agent report **candidate references** by location and title only — feature docs,
+`README`s next to the feature, OpenAPI/GraphQL/protobuf schema files, ADRs. These are *discovered*,
+not approved: list them, do not read them in depth yet.
 
 Collect the union of paths into a candidate `paths:` list for the frontmatter.
 
@@ -108,7 +124,13 @@ carry the business rationale that commit messages omit:
 ```sh
 gh pr list --search "<keywords>" --state merged --limit 20 --json number,title,body
 gh pr view <n>
+
+# Open PRs touching this feature: in-flight work and contracts not yet landed
+gh pr list --search "<keywords>" --state open --limit 20 --json number,title,updatedAt
 ```
+
+Merged PRs are history — read them. **Open** PRs are proposals, and may never land: list them as
+discovered references and leave the diffs unread until the user approves them in step 4.
 
 **Hunt specifically for removed and reversed decisions.** Run `git log -S` against constants,
 flags, and files that *used* to exist. "We deleted `X`, don't reintroduce it" is the single most
@@ -128,24 +150,72 @@ Extract: product intent, acceptance criteria, explicit non-goals, and open follo
 
 ### 4. Interview the user
 
-Use `AskUserQuestion` — at most 4 questions per call, at most 2 rounds. **Only ask what research
-could not answer.** Lead with what you found so the user is confirming, not authoring.
+Two gated rounds, in this order. Both are skippable. An interview that asks nothing is a
+**success** — it means research already answered everything.
 
-Cover:
+#### Round A — reference triage
 
-- **Scope boundary** — present the candidate file set; ask what is adjacent but owned elsewhere.
-- **Business rules and invariants not visible in code** — why a rule exists, what must never break,
-  what a violation would cost.
-- **Known open items, tech debt, traps** — things the code does not admit to.
-- **Verification** — exact lint / typecheck / test commands, and any known-failing baseline to
-  ignore.
-- **Related features** that must not regress — becomes the "Related features & boundaries" section.
+Run this **only if steps 1–3 discovered references the user did not name.** One `AskUserQuestion`,
+multi-select, one option per reference with a one-line note on what it appears to cover:
+
+> I found these alongside the code — which should I use?
+> · `docs/checkout-flow.md` (flow doc, last touched 3 weeks ago)
+> · PR #412 "Split promo stacking" (open, not merged)
+> · `openapi/quotes.v2.yaml` (request/response shapes for the quote endpoints)
+
+Then read **only** the approved ones, plus everything the user supplied in step 0. Never read a
+discovered reference before its approval, and never re-ask about one the user already handed you.
+Nothing discovered → skip this round entirely.
+
+#### Round B — grounded questions
+
+At most **4 questions, one round** (not two). A question is admissible only when it is anchored to
+something you can quote back:
+
+- a finding in the code — a `path:line`, a symbol, a commit sha, a rule you can see enforced
+- a passage from a reference the user supplied or approved in round A
+
+Lead with the anchor, so the user is *confirming* rather than authoring, and draw the answer
+options from what the code or the reference actually shows. For example:
+
+- "`applyPromo` at `src/cart/promo.ts:88` rejects a second non-stackable promo. Why does that rule
+  exist — legal constraint, pricing decision, or leftover?"
+- "`STACK_LIMIT` was deleted in `a1b2c3d` with no ticket. Deliberate, or lost in a refactor?"
+- "`src/cart/shipping/` sits inside the paths I found but never imports the promo code. In scope,
+  or owned elsewhere?"
+- "`quotes.v2.yaml` says a quote expires in 15 min; `QUOTE_TTL` at `src/api/quote.ts:14` is 30.
+  Which is authoritative?"
+
+#### Never ask
+
+This list is the point of the step. These questions are what make an interview feel like a form:
+
+- **Anything the repo answers.** Verification commands (read `package.json`, `Makefile`, the CI
+  config), test layout (find the tests), commit convention (read `git log`), the file list (you
+  just researched it). Go look instead.
+- **Open-ended inventory.** "Any tech debt?" · "What are the business rules?" · "Any gotchas?" ·
+  "Anything else I should know?" These invite filler, and filler is exactly what rule 4 forbids.
+- **Permission to read something already in this repo.** Read it.
+- **Anything feeding a section you would drop anyway.** If the answer would be thin, drop the
+  section instead of asking.
+
+Apply the budget rule to every candidate question before you ask it: *does the answer change what
+gets written in a named section of the knowledge file?* If not, cut it. If nothing survives, skip
+the round and say so in the report.
 
 ### 5. Write the two files
 
 Read `feature-template.md`, then write `.fai/features/<slug>.md` with every section filled from
-researched, cited content. Drop sections that genuinely do not apply — an honest 12-section file
-beats an 18-section file padded with filler.
+researched, cited content.
+
+**Cite, never copy.** Every claim is a pointer — `path:line — Symbol` — not a pasted code block.
+The one exception is section 9's `sh` block: those are commands to run, not code to read. Anything
+with no file in *this* repo to point at goes in section 12 as a reference, with what it is
+authoritative for: contracts living in another repo, external API docs, specs, ADRs kept elsewhere.
+Record there every reference the user supplied or approved in round A.
+
+Drop sections that genuinely do not apply — an honest 12-section file beats a padded 18-section
+one.
 
 Read `stub-template.md`, then write `.claude/agents/fai-<slug>.md`, copying the `description`
 verbatim from the knowledge file's frontmatter.
@@ -161,6 +231,7 @@ Print:
 - a 5-line summary of what the agent covers
 - the trigger list that will route work to it
 - how to use it: `/fai:plan <ticket>`, `/fai:review`, or by name (`fai-<slug>`)
+- which references were read (supplied or approved) and which were offered and declined
 - the watermark recorded, and anything you could not verify
 
 Then suggest the natural next step: `/fai:plan <ticket>`.

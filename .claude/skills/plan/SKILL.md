@@ -71,7 +71,7 @@ Dispatch each as its `fai-<slug>` subagent. Give every agent:
   > restating or relitigating them. If you disagree with a prior decision, say so explicitly and
   > explain the consequence; do not silently plan around it.
 
-Ask each for a file-level plan following section 12 of its own knowledge file.
+Ask each for a file-level plan following section 13 of its own knowledge file.
 
 ### Step 4 — Assemble one plan
 

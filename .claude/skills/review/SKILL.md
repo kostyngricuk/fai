@@ -53,7 +53,7 @@ lens only, and that gap is worth saying out loud.
 Dispatch in a single message so they run concurrently.
 
 **Feature lens** — one `fai-<slug>` subagent per matched feature. Give each the diff for its own
-files plus the ticket context if known, and tell it to follow **section 13 ("How to review a change
+files plus the ticket context if known, and tell it to follow **section 14 ("How to review a change
 in this feature")** of its own knowledge file: invariants, reintroductions, convention drift,
 lockstep updates, regression surfaces, boundary contracts.
 

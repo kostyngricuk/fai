@@ -111,8 +111,8 @@ plugin itself is not vendored into your repo — only the knowledge it produces.
 ```
 
 Researches the feature, mines git history for ticket ids and reverted decisions, reads the tickets
-it finds, then asks you the handful of things it could not discover. Writes
-`.fai/features/checkout.md` and `.claude/agents/fai-checkout.md`.
+it finds, then asks you the handful of things the code cannot answer — each question anchored to a
+real line it found. Writes `.fai/features/checkout.md` and `.claude/agents/fai-checkout.md`.
 
 ```
 /fai:plan https://linear.app/acme/issue/TID-1234
@@ -156,8 +156,10 @@ Creates a feature agent.
    each file was introduced, who owns it, and — most valuable — `git log -S` sweeps for constants and
    files that were **deleted on purpose**.
 4. **Ticket archaeology** — resolves the harvested ids through the fetch cascade to recover intent.
-5. **Interview** — asks only what research could not answer: scope boundary, undocumented invariants,
-   known traps, verification commands, neighbouring features.
+5. **Interview** — two gated rounds, both skippable. First, if it discovered references you did not
+   name (docs, open PRs, API contracts), it asks which of them to use and reads only those. Then at
+   most four questions, each anchored to a specific `path:line`, sha, or quoted passage — never an
+   open-ended "any gotchas?", and never anything the repo already answers.
 6. **Writes** the knowledge file and the routing stub, and records a watermark SHA.
 
 ### `/fai:plan <ticket URL, id, or description>`
@@ -239,9 +241,10 @@ The knowledge file's sections, and who reads them:
 | 9 | Verification commands | plan, save-plan |
 | 10 | Commit / PR / ticket convention | plan |
 | 11 | Related features & boundaries | plan routing |
-| 12 | How to produce a plan for a new task | `/fai:plan` |
-| 13 | How to review a change in this feature | `/fai:review` |
-| 14 | Learning log | `/fai:train` |
+| 12 | External contracts & references | plan, review |
+| 13 | How to produce a plan for a new task | `/fai:plan` |
+| 14 | How to review a change in this feature | `/fai:review` |
+| 15 | Learning log | `/fai:train` |
 
 Sections 5 and 7 are the ones that justify the whole exercise. Everything else a capable assistant
 could re-derive from the code; those two it cannot.
@@ -314,7 +317,7 @@ This repo — the plugin itself:
   skills/                      # ← plugin.json points `skills` here
     create/
       SKILL.md
-      feature-template.md      # the 14-section knowledge skeleton
+      feature-template.md      # the 15-section knowledge skeleton
       stub-template.md         # the routing-stub skeleton
     plan/SKILL.md
     review/SKILL.md

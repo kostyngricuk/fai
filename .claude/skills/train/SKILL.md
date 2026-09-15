@@ -17,6 +17,8 @@ re-checked, not just new facts added.
 2. **Edit surgically.** Use targeted edits, not a full rewrite, so hand-written nuance survives.
 3. **Read-only on external systems.** Read PRs, tickets, and docs; never write to them.
 4. **Verify, do not assume.** A claim is only `confirmed` if you actually re-read the cited path.
+5. **Reference, don't transcribe.** Never add a code block to the knowledge file — cite
+   `path:line — Symbol` instead. If you find one already there, replace it with its citation.
 
 ---
 
@@ -86,6 +88,9 @@ Pay particular attention to:
   TODOs, or known bugs appeared?
 - **Deletions in the diff** — every deliberate removal is a candidate "do not reintroduce" line.
   These are the highest-value lines in the file.
+- **Section 12 (External contracts & references)** — an off-repo contract can go stale without a
+  single line of this repo changing. Re-check each entry, and record any newly discovered
+  disagreement between a reference and the code.
 - **Frontmatter `paths:` and `description`** — new files, routes, or ticket prefixes mean new
   routing triggers.
 

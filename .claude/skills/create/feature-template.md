@@ -7,6 +7,12 @@ placeholders through.
 
 - **Cite everything.** `path:line` for every factual claim. A section with no citations is a
   section you have not actually researched.
+- **Reference, don't transcribe.** Never paste code into this file. Point at it:
+  `src/pricing/rules.ts:42` — `applyTierDiscount`. Pair every line number with the **symbol name**;
+  line numbers drift, symbols survive, and the agent is told to verify against the live tree anyway.
+  Write prose *about* a thing only when the thing is not in this repo to point at — that belongs in
+  section 12. The one exception is section 9's `sh` block: those are commands to run, not code to
+  read.
 - **State absences.** "There is no `constants.ts` in this folder" prevents a future agent from
   inventing one.
 - **Drop, don't pad.** If a section does not apply to this feature, delete it. An honest
@@ -15,8 +21,8 @@ placeholders through.
 - **Prefer the specific.** "Only `cofidis` requires the fin-control step, which is why the Start
   stack does not register it" is useful. "Follow existing patterns" is not.
 
-Sections 9 (Business rules & invariants) and 11 (Built vs. open) are what make the agent worth
-having. Spend your effort there.
+Sections 5 (Business rules & invariants) and 7 (Built vs. explicitly still open) are what make the
+agent worth having. Spend your effort there.
 
 ---8<--- TEMPLATE BEGINS ---8<---
 
@@ -55,9 +61,10 @@ define each term once, here.>
 
 ## 2. Architecture & core contracts
 
-<The shapes and interfaces everything hangs off. Include the actual type/interface definitions as
-code blocks with their source path. Explain the one or two structural ideas that, once understood,
-make the rest of the feature predictable.>
+<The shapes and interfaces everything hangs off. Name each one and cite it — `path:line — Symbol` —
+rather than pasting its definition; the reader can open the file. Spend the words instead on the one
+or two structural ideas that, once understood, make the rest of the feature predictable. Contracts
+that live outside this repo belong in section 12.>
 
 ## 3. Code map
 
@@ -130,7 +137,19 @@ examples.>
 
 <Loop these agents in via /fai:plan when a task crosses the seam.>
 
-## 12. How to produce a plan for a new task
+## 12. External contracts & references
+
+| What | Where | Authoritative for |
+| --- | --- | --- |
+| `POST /v2/quotes` request/response | `acme/api-contracts` repo, `quotes/v2.yaml` | The wire shape. Owned by the platform team; changes land there before here. |
+| Checkout flow spec | <url> | Retry and timeout rules (its section 4). |
+
+<Only for things with no file in *this* repo to cite: contracts kept in another repo, external API
+docs, design specs, ADRs stored elsewhere. Anything that does live here belongs in section 3 as a
+path. Record what each reference is authoritative for, so a future agent knows when it must go read
+the source — and note explicitly where a reference and this code are known to disagree.>
+
+## 13. How to produce a plan for a new task
 
 1. If given a ticket link, fetch it. Identify which parts of this feature it touches and whether it
    maps to one of the open items in section 7.
@@ -139,13 +158,13 @@ examples.>
 3. Enumerate concrete file changes: every file to touch, and what changes in each.
 4. Check the invariants in section 5 — state explicitly which ones the change interacts with and
    how it preserves them.
-5. Flag anything that ripples past this feature's boundary (section 11) so another agent can pick
-   it up.
+5. Flag anything that ripples past this feature's boundary (section 11) or touches an external
+   contract (section 12) so another agent — or another team — can pick it up.
 6. Give the verification commands from section 9.
 7. Present the plan **file-by-file with brief rationale, not as prose** — it is meant to be handed
    straight to implementation.
 
-## 13. How to review a change in this feature
+## 14. How to review a change in this feature
 
 When invoked by `/fai:review`, check in this order and report using the severity vocabulary
 🔴 CRITICAL · 🟠 MAJOR · 🟡 MINOR · 🔵 NOTE:
@@ -161,7 +180,7 @@ When invoked by `/fai:review`, check in this order and report using the severity
 For each finding give `file:line`, what is wrong, **why it matters for this feature specifically**,
 and a concrete fix. Say so plainly when the change is clean.
 
-## 14. Learning log
+## 15. Learning log
 
 | Date | Source | What changed |
 | --- | --- | --- |
