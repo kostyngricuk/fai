@@ -1,5 +1,5 @@
 ---
-name: fai-save-plan
+name: save-plan
 description: "Save a plan produced by a FAI feature agent to .fai/plans/ with the standard location, naming, and structure so it can be reviewed, resumed, and handed off across sessions. Use whenever a fai-* agent finishes a file-level implementation plan for a ticket, or when asked to persist/record a plan for later work."
 argument-hint: <ticket id + the plan to save>
 ---
@@ -9,11 +9,11 @@ handoff-ready.
 
 ## When to use
 
-- A feature agent (or `/fai-plan`) has just produced a concrete, file-level plan.
+- A feature agent (or `/fai:plan`) has just produced a concrete, file-level plan.
 - You are asked to save, record, or persist a plan for future work.
 
 Do **not** use this to invent a plan — only to store one that already exists. If no plan exists yet,
-produce it first (`/fai-plan <ticket>`), then run this skill.
+produce it first (`/fai:plan <ticket>`), then run this skill.
 
 ## Where plans live
 
@@ -97,8 +97,8 @@ In a later session, to pick a plan back up:
 1. Read `.fai/plans/feat-<n>.md` and find the first unchecked box in the **Execution log**.
 2. **Re-verify the "Current-state facts" first** — code moves. Anything that no longer holds
    invalidates the steps built on it; correct the plan before executing it, and consider
-   `/fai-train <slug>` if the drift is in the feature agent itself.
+   `/fai:train <slug>` if the drift is in the feature agent itself.
 3. Execute from that step, ticking boxes and recording commit SHAs as you go.
 4. Bump `status` and `updated` in the frontmatter.
 
-`/fai-plan` is the usual producer of plans saved here.
+`/fai:plan` is the usual producer of plans saved here.

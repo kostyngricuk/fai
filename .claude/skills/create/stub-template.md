@@ -10,7 +10,7 @@ means the knowledge file stays a readable, hand-editable document while routing 
 
 - The `description` is copied **verbatim** from the knowledge file's frontmatter. It is the routing
   surface: pack it with triggers (paths, symbols, route names, ticket prefixes, domain nouns).
-  Never let the two drift — `/fai-train` regenerates this file whenever the description changes.
+  Never let the two drift — `/fai:train` regenerates this file whenever the description changes.
 - The stub carries **no knowledge of its own**. Never duplicate facts here.
 - Pick `color` from 🟣 purple, 🟢 green, 🔵 blue, 🟠 orange, 🟡 yellow, 🔴 red, ⚪ white,
   🟤 brown — stable per agent name, and not already taken by another `fai-*` agent in this repo.

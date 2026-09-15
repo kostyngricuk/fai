@@ -1,0 +1,6 @@
+# This repo's product IS the skills directory, so un-ignore it.
+# A global core.excludesFile commonly ignores `.claude/skills` — the negation
+# must name the directory first, since files under an excluded directory
+# cannot be re-included on their own.
+!.claude/skills/
+!.claude/skills/**

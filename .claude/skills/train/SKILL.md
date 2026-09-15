@@ -1,5 +1,5 @@
 ---
-name: fai-train
+name: train
 description: "Update FAI feature agents from new information — recent commits, a merged PR, updated documentation, a URL, or a direct correction. Reconciles every claim against the current code, proposes the change set for approval, applies it surgically, bumps the watermark, and regenerates the routing stub. Called with no arguments it trains every existing agent at once. Use when a feature agent is out of date, or after shipping work that changes how a feature behaves."
 argument-hint: "[feature-slug] [source: commits | <sha>..<sha> | PR url/number | doc path | url | free text] — no args trains every agent"
 ---
@@ -25,7 +25,7 @@ re-checked, not just new facts added.
 ### Step 1 — Load
 
 **With a slug:** read `.fai/features/<slug>.md` and take `watermark` from its frontmatter. If the
-file does not exist, say so and point at `/fai-create <slug>`.
+file does not exist, say so and point at `/fai:create <slug>`.
 
 **With no arguments: train every agent.** This is the routine maintenance mode — run it after a
 merge, or on a Monday, to pull the whole roster back in sync at once.
@@ -34,7 +34,7 @@ merge, or on a Monday, to pull the whole roster back in sync at once.
 ls .fai/features/*.md 2>/dev/null
 ```
 
-- No agents at all → say so and point at `/fai-create`.
+- No agents at all → say so and point at `/fai:create`.
 - Otherwise take every agent, read each watermark, and follow the **Bulk mode** rules below.
 
 Do not ask which one to train. Asking is only correct when the user named a slug that does not
@@ -113,9 +113,10 @@ Apply all, or tell me which to skip.
 On approval, edit surgically. Then, in order:
 
 1. Update frontmatter `description` and `paths:` if triggers changed.
-2. **Regenerate `.claude/agents/fai-<slug>.md`** from the skill template at
-   `.claude/skills/fai-create/stub-template.md` if the description changed — the stub's description
-   must stay verbatim-identical to the knowledge file's, or routing silently drifts.
+2. **Regenerate `.claude/agents/fai-<slug>.md`** from `stub-template.md`, in this skill's folder,
+   if the description changed — the stub's description must stay verbatim-identical to the knowledge
+   file's, or routing silently drifts. Never reach into another skill's folder for it; that path does
+   not exist when FAI is installed as a plugin.
 3. Move shipped items from "still open" to "built".
 4. Add "do not reintroduce" entries for deliberate deletions.
 5. Bump `watermark` to the new short SHA and date.
@@ -147,7 +148,7 @@ git log --oneline <watermark>..HEAD -- '<paths from frontmatter>' | wc -l
 
 **Do not add `--all` here.** `--all` adds every ref to the walk and thereby overrides the
 `<watermark>..HEAD` restriction — the count comes back as the entire history and nothing is ever
-skipped. `--all` belongs to the unranged discovery searches in `/fai-create`, never to a range
+skipped. `--all` belongs to the unranged discovery searches in `/fai:create`, never to a range
 query.
 
 Zero commits → the agent is **up to date**. Skip it entirely, spend no turns on it, and list it as
@@ -196,4 +197,4 @@ Close with a table: agents updated · claims corrected · claims removed · clai
 regenerated · agents skipped as up-to-date · agents needing attention, each with the reason.
 
 Then name any agent that looks structurally stale rather than merely behind — a code map whose
-paths mostly no longer exist is a `/fai-create` candidate, not a `/fai-train` one. Say so.
+paths mostly no longer exist is a `/fai:create` candidate, not a `/fai:train` one. Say so.

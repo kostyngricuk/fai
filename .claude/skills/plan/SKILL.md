@@ -1,5 +1,5 @@
 ---
-name: fai-plan
+name: plan
 description: "Turn a ticket or an issue description into a file-level implementation plan by routing it to the right FAI feature agents. Fetches the ticket (Linear/Jira/GitHub/Trello), picks the matching fai-* agents, runs them in sequential handoff so they build on each other like a team, and merges the result into one ordered plan. Use when asked to plan a feature, plan a fix, or work out how to implement a ticket."
 argument-hint: <ticket URL/id, or a description of the issue or feature>
 ---
@@ -48,7 +48,7 @@ symbols or paths it names — grep the repo for named symbols to find whose code
 
 Produce an ordered list: **primary agent first** (owns the core of the change), then secondaries.
 
-- **No feature agents exist** → tell the user, suggest `/fai-create <guess>`, and offer to proceed
+- **No feature agents exist** → tell the user, suggest `/fai:create <guess>`, and offer to proceed
   with the built-in `Plan` agent instead, clearly flagged as *not* feature-grounded.
 - **No agent matches** → same, naming the agents you considered and why each missed.
 - **Ambiguous, or 2+ agents match** → confirm the selection and the order with `AskUserQuestion`
@@ -106,5 +106,5 @@ Use the shared severity vocabulary for risks: 🔴 CRITICAL · 🟠 MAJOR · �
 
 ### Step 6 — Offer to save
 
-Close by offering `/fai-save-plan` so the plan survives into a future session, and name the path it
+Close by offering `/fai:save-plan` so the plan survives into a future session, and name the path it
 would be written to (`.fai/plans/feat-<ticket>.md`).

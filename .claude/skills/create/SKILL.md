@@ -1,5 +1,5 @@
 ---
-name: fai-create
+name: create
 description: "Create a new FAI feature agent — research a feature's code, git history, and tickets, interview the user about business rules, then write a self-contained specialist agent to .fai/features/<slug>.md plus a routing stub in .claude/agents/. Use when asked to create/add/set up a feature agent, onboard a feature, or make an agent that knows a specific feature."
 argument-hint: <feature name or description, e.g. "checkout" or "the discount engine in src/pricing">
 ---
@@ -41,7 +41,7 @@ before writing.
 - Slugify the argument into a short kebab-case `<slug>` (e.g. "the discount engine in src/pricing"
   → `discount`). Confirm the slug with the user if the argument is vague.
 - If `.fai/features/<slug>.md` already exists: **stop.** Tell the user it exists and recommend
-  `/fai-train <slug>` instead. Only overwrite if they explicitly ask.
+  `/fai:train <slug>` instead. Only overwrite if they explicitly ask.
 - Create the destinations before writing anything — never ask the user to set up directories:
 
   ```sh
@@ -160,7 +160,7 @@ Print:
 - both file paths
 - a 5-line summary of what the agent covers
 - the trigger list that will route work to it
-- how to use it: `/fai-plan <ticket>`, `/fai-review`, or by name (`fai-<slug>`)
+- how to use it: `/fai:plan <ticket>`, `/fai:review`, or by name (`fai-<slug>`)
 - the watermark recorded, and anything you could not verify
 
-Then suggest the natural next step: `/fai-plan <ticket>`.
+Then suggest the natural next step: `/fai:plan <ticket>`.

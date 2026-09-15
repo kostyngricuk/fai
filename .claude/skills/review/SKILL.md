@@ -1,5 +1,5 @@
 ---
-name: fai-review
+name: review
 description: "Review changes through two lenses at once — the FAI feature agents that own the touched code (business rules, invariants, conventions, regressions) and a generic reviewer (correctness, security, performance, tests) — then merge into one severity-ranked, colorized report. Use when asked to review a diff, changes, a branch, or a PR."
 argument-hint: <optional scope — a path, branch, PR number, or 'staged'; defaults to the working diff>
 ---

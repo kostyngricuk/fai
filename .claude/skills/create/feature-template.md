@@ -128,7 +128,7 @@ examples.>
 | --- | --- | --- |
 | `fai-<other>` | <where they touch> | <what each side must honor> |
 
-<Loop these agents in via /fai-plan when a task crosses the seam.>
+<Loop these agents in via /fai:plan when a task crosses the seam.>
 
 ## 12. How to produce a plan for a new task
 
@@ -147,7 +147,7 @@ examples.>
 
 ## 13. How to review a change in this feature
 
-When invoked by `/fai-review`, check in this order and report using the severity vocabulary
+When invoked by `/fai:review`, check in this order and report using the severity vocabulary
 🔴 CRITICAL · 🟠 MAJOR · 🟡 MINOR · 🔵 NOTE:
 
 1. **Invariants** (section 5) — is any rule weakened, bypassed, or silently removed?
@@ -165,4 +165,4 @@ and a concrete fix. Say so plainly when the change is clean.
 
 | Date | Source | What changed |
 | --- | --- | --- |
-| <YYYY-MM-DD> | initial `/fai-create` | Agent created at watermark `<sha>`. |
+| <YYYY-MM-DD> | initial `/fai:create` | Agent created at watermark `<sha>`. |
